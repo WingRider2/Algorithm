@@ -29,11 +29,11 @@ namespace ConsoleApp1
                 }
             }
 
-            //부모설정
-            int LOG = (int)Math.Log2(N) + 1;
-            int[,] up = new int[LOG, N + 1];
-            int[] depth = new int[N + 1];
-            var q = new Queue<int>();
+            //부모와 깊이 설정
+            int LOG = (int)Math.Log2(N) + 1; // 부모로 올수있는경우의 수의 크기
+            int[,] up = new int[LOG, N + 1]; // 앞에는 첫번째 부모인가 두번째 부모인가 , 각 노드
+            int[] depth = new int[N + 1]; //노드의 깊이
+            var q = new Queue<int>(); 
             q.Enqueue(1);
             depth[1] = 0;
             up[0, 1] = 0; // 루트의 조상은 0
@@ -42,14 +42,14 @@ namespace ConsoleApp1
                 int u = q.Dequeue();
                 foreach (int v in graph[u])
                 {
-                    if (v == up[0, u]) continue;
+                    if (v == up[0, u]) continue; //부모를 향하는 간선을 보면 실행x
                     up[0, v] = u;
                     depth[v] = depth[u] + 1;
                     q.Enqueue(v);
                 }
             }
 
-            for (int k = 1; k < LOG; k++)
+            for (int k = 1; k < LOG; k++) //부모 분만 아니라 할머니, 고조할머니 등을 저장
             {
                 for (int v = 1; v <= N; v++)
                 {
@@ -71,11 +71,14 @@ namespace ConsoleApp1
         }  
         static int Lca(int u, int v, int[,] up, int[] depth, int LOG)
         {
-            if (depth[u] < depth[v]) (u, v) = (v, u);
-            int diff = depth[u] - depth[v];
-            for (int k = 0; k < LOG; k++)
-                if ((diff & (1 << k)) != 0)
+            if (depth[u] < depth[v]) (u, v) = (v, u); //깊이가 다르면 깊이 u를 더 큰값으로 한다.
+            int diff = depth[u] - depth[v]; // 갚이 차이를 구하고
+
+            for (int k = 0; k < LOG; k++) //깊이가 더 깊은 쪽을 올려서 깊이가 같은 값으로 한다.
+                if ((diff & (1 << k)) != 0) // <<비트 마스킹을 쓰는 이유는 LOG는 log 2의 
                     u = up[k, u];
+
+            //여기서 부터 본격 LCA
             if (u == v) return u;
             for (int k = LOG - 1; k >= 0; k--)
             {
