@@ -1,10 +1,10 @@
 # [level 0] k의 개수 - 120887 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/120887?language=csharp) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/120887) 
 
 ### 성능 요약
 
-메모리: 36 MB, 시간: 15.36 ms
+메모리: 35.9 MB, 시간: 14.46 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 06월 22일 20:35:02
+2025년 06월 22일 20:49:29
 
 ### 문제 설명
 
